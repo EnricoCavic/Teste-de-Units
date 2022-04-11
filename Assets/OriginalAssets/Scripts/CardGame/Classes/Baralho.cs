@@ -21,4 +21,12 @@ public class Baralho
         
     }
 
+    public Carta ComprarCarta()
+    {
+        int r = Random.Range(0, cartas.Count - 1);
+        Carta c = cartas[r];
+        cartas.RemoveAt(r);
+        return c;
+    }
+
 }

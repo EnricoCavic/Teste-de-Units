@@ -10,5 +10,6 @@ public class Participante : MonoBehaviour
     private void Awake()
     {
         meuBaralho = new Baralho(baralhoObj);  
+        meuBaralho.ComprarCarta();
     }
 }
