@@ -18,13 +18,8 @@ public class Baralho
     private void ConstruirBaralho()
     {
         for(int i = 0; i < obj.cartas.Count; i++)
-        {
-            Carta c = new Carta(obj.cartas[i]);
-            Debug.Log(c.nome + " adicionado ao baralho");
-            cartas.Add(c);
+            cartas.Add(new Carta(obj.cartas[i]));
             
-        }
-        
     }
 
     public Carta ComprarCarta()

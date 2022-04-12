@@ -31,7 +31,6 @@ public class Participante : MonoBehaviour
     private void ComprarCarta()
     {
         Carta c = meuBaralho.ComprarCarta();
-        Debug.Log(c.nome);
         mao.Add(c);
         cartaAdicionada?.Invoke(c);
     }

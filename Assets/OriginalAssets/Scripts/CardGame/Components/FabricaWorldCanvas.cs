@@ -11,11 +11,11 @@ public class FabricaWorldCanvas : MonoBehaviour
     // transform de onde as cartas devem ficar na mão
     [SerializeField]
     private List<Transform> posicoesMao;
-    private List<Interpretador> interpretadores;
+    private Interpretador[] interpretadores;
 
     private void Start() 
     {
-        interpretadores = new List<Interpretador>();    
+        interpretadores = new Interpretador[posicoesMao.Count];
     }
 
     private void OnEnable() 
@@ -25,16 +25,15 @@ public class FabricaWorldCanvas : MonoBehaviour
 
     private void AdicionarCarta(Carta _carta)
     {
-        Debug.Log("add carta");
-        for(int i = 0; i < interpretadores.Count; i++)
+        for(int i = 0; i < interpretadores.Length; i++)
         {
             if(interpretadores[i] == null)
             {
                 Transform t = posicoesMao[i];
-                // not instantiating here
-                GameObject obj = Instantiate(prefabCarta, t.position, t.rotation);
+                GameObject obj = Instantiate(prefabCarta, t.position, t.rotation, transform);
+                obj.transform.localScale = t.localScale;
                 Interpretador interpr = obj.GetComponent<Interpretador>();
-                interpr.carta = _carta;
+                interpr.Interpretar(_carta);
                 interpretadores[i] = interpr;
                 return;
             }

@@ -29,4 +29,10 @@ public class Interpretador : MonoBehaviour
         vida.text = carta.obj.vida.ToString();
         imagem.texture = carta.obj.imagem.texture;
     }
+
+    public void Interpretar(Carta _carta)
+    {
+        carta = _carta;
+        Interpretar();
+    }
 }
