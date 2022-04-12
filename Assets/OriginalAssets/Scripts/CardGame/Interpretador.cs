@@ -58,11 +58,9 @@ public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClick
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        originalScale = transform.localScale;
-        originalPosition = transform.position;
-        transform.localScale = new Vector3(tamanhoAoSelecionar, tamanhoAoSelecionar, tamanhoAoSelecionar);
-        transform.position += transform.up * (tamanhoAoSelecionar/2f) + (transform.right * (tamanhoAoSelecionar/2)) * offsetDoCanto * 0.7f;
-        transform.SetAsLastSibling();
+        if(localAtual == Local.Mao)
+            HighlightMao();
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -71,6 +69,21 @@ public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClick
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        if(localAtual == Local.Mao)
+            RetornarAoTransformOriginal();
+    }
+
+    private void HighlightMao()
+    {
+        originalScale = transform.localScale;
+        originalPosition = transform.position;
+        transform.localScale = new Vector3(tamanhoAoSelecionar, tamanhoAoSelecionar, tamanhoAoSelecionar);
+        transform.position += transform.up * (tamanhoAoSelecionar/2f) + (transform.right * (tamanhoAoSelecionar/2)) * offsetDoCanto * 0.7f;
+        transform.SetAsLastSibling();
+    }
+
+    private void RetornarAoTransformOriginal()
     {
         transform.localScale = originalScale;
         transform.position = originalPosition;
