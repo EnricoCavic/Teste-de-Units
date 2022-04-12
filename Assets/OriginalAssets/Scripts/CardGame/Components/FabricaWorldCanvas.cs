@@ -22,23 +22,20 @@ public class FabricaWorldCanvas : MonoBehaviour
         Interpretador.cartaMovida += AdicionarCarta;
     }
 
-    private void AdicionarCarta(Carta _carta, Local _localAtual)
+    private void AdicionarCarta(Carta _carta, Local _novoLocal)
     {
-        LocalPositions localPos = EncontrarLocal(_localAtual);
+        LocalPositions localPos = EncontrarLocal(_novoLocal);
         if(localPos == null)
             return;
 
         Interpretador _interpretador = Instantiate(prefabCarta).GetComponent<Interpretador>();
-        MoverCarta(_interpretador, _carta, localPos);
-        return;
-
-    
+        MoverCarta(_interpretador, _carta, localPos);   
     }
 
-    private void AdicionarCarta(Interpretador _interpretador, Local _localAtual)
+    private void AdicionarCarta(Interpretador _interpretador, Local _novoLocal)
     {
-        RemoverDoLocalAnterior();
-        LocalPositions localPos = EncontrarLocal(_localAtual);
+        LocalPositions localPos = EncontrarLocal(_novoLocal);
+        RemoverDoLocal(_interpretador, EncontrarLocal(_interpretador.localAtual));
         if(localPos == null)
             return;
 
@@ -89,9 +86,14 @@ public class FabricaWorldCanvas : MonoBehaviour
         return -1;
     }
 
-    private void RemoverDoLocalAnterior()
-    {
 
+    private void RemoverDoLocal(Interpretador _interpretador, LocalPositions _local)
+    {
+        for(int i = 0; i < _local.interpretadores.Length; i++)
+            if(_local.interpretadores[i] == _interpretador)
+                _local.interpretadores[i] = null;
     }
+
+
     
 }

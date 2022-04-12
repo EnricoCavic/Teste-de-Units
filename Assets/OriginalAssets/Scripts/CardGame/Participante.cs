@@ -47,7 +47,7 @@ public class Participante : MonoBehaviour
 
     private void RemoverCarta(Interpretador _interpretador, Local _localAtual)
     {
-        if(mao.Count >= tamanhaMaximoMao)
+        if(mao.Count <= 0)
             return;
 
         Carta c = EncontrarCartaNaMao(_interpretador.carta);
