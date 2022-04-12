@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+public enum Local
+{
+    Mao, 
+    Campo,
+    Descarte
+}
+
 public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClickHandler, IPointerExitHandler
 {
     [SerializeField]
@@ -22,6 +29,8 @@ public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClick
     public float offsetDoCanto;
 
     public FabricaWorldCanvas fabrica;
+
+    public Local localAtual;
 
     // Start is called before the first frame update
     void OnEnable()

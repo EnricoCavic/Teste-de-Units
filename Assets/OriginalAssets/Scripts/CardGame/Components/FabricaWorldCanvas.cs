@@ -8,14 +8,17 @@ public class FabricaWorldCanvas : MonoBehaviour
     [SerializeField]
     private GameObject prefabCarta;
 
-    // transform de onde as cartas devem ficar na mão
-    [SerializeField]
-    private List<Transform> posicoesMao;
-    private Interpretador[] interpretadores;
+
+    public List<LocalPositions> locais;
+    
+    // [SerializeField]
+    // private List<Transform> posicoesMao;
+    // private Interpretador[] interpretadores;
 
     private void Start() 
     {
-        interpretadores = new Interpretador[posicoesMao.Count];
+        for(int i = 0; i < locais.Count; i++)
+            locais[i].Inicializar();           
     }
 
     private void OnEnable() 
@@ -23,27 +26,40 @@ public class FabricaWorldCanvas : MonoBehaviour
         Participante.cartaAdicionada += AdicionarCarta;    
     }
 
-    private void AdicionarCarta(Carta _carta)
+    private void AdicionarCarta(Carta _carta, Local _localAtual)
     {
-        for(int i = 0; i < interpretadores.Length; i++)
+        for(int i = 0; i < locais.Count; i++)
         {
-            if(interpretadores[i] == null)
+            if(locais[i].localId == _localAtual)
             {
-                Transform t = posicoesMao[i];
+                InstanciarCarta(_carta,locais[i]);
+                return;
+            }
+        }
+    }
+
+    private void InstanciarCarta(Carta _carta, LocalPositions _local)
+    {
+        for(int i = 0; i < _local.interpretadores.Length; i++)
+        {
+            if(_local.interpretadores[i] == null)
+            {
+                Transform t = _local.posicoes[i];
                 GameObject obj = Instantiate(prefabCarta, t.position, t.rotation, transform);
-                Interpretador interpr = obj.GetComponent<Interpretador>();
+                Interpretador interpretador = obj.GetComponent<Interpretador>();
 
                 obj.transform.localScale = t.localScale;
-                interpr.Interpretar(_carta);
-                interpr.fabrica = this;
-                if(i == 0)
-                    interpr.offsetDoCanto = 1;
-                else if(i == interpretadores.Length - 1)
-                    interpr.offsetDoCanto = -1;
-                else    
-                    interpr.offsetDoCanto = 0;
+                interpretador.Interpretar(_carta);
+                interpretador.fabrica = this;
 
-                interpretadores[i] = interpr;
+                if(i == 0)
+                    interpretador.offsetDoCanto = 1;
+                else if(i == _local.interpretadores.Length - 1)
+                    interpretador.offsetDoCanto = -1;
+                else    
+                    interpretador.offsetDoCanto = 0;
+
+                _local.interpretadores[i] = interpretador;
                 return;
             }
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Participante : MonoBehaviour
 {
 
-    public static Action<Carta> cartaAdicionada;
+    public static Action<Carta, Local> cartaAdicionada;
     public static Action<List<Carta>> cartaRemovida;
 
     [SerializeField]
@@ -15,6 +15,9 @@ public class Participante : MonoBehaviour
 
     // mão do jogador
     private List<Carta> mao = new List<Carta>();
+
+    [SerializeField]
+    private int tamanhaMaximoMao;
 
     private void Awake() 
     {
@@ -30,9 +33,13 @@ public class Participante : MonoBehaviour
 
     private void ComprarCarta()
     {
+        if(mao.Count >= tamanhaMaximoMao)
+            return;
+
         Carta c = meuBaralho.ComprarCarta();
         mao.Add(c);
-        cartaAdicionada?.Invoke(c);
+        Debug.Log("Carta comprada: " + c.nome);
+        cartaAdicionada?.Invoke(c, Local.Mao);
     }
 
 }
