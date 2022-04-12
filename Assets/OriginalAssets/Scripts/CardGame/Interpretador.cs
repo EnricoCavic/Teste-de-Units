@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public enum Local
 {
@@ -13,6 +14,10 @@ public enum Local
 
 public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClickHandler, IPointerExitHandler
 {
+
+    public static Action<Interpretador, Local> cartaMovida;
+
+
     [SerializeField]
     public Carta carta;
 
@@ -56,6 +61,13 @@ public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClick
         Interpretar();
     }
 
+    public void SetTransform(Transform _t)
+    {
+        transform.position = _t.position;
+        transform.rotation = _t.rotation;
+        transform.localScale = _t.localScale;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if(localAtual == Local.Mao)
@@ -65,7 +77,10 @@ public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClick
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        if(localAtual == Local.Mao)
+        {
+            cartaMovida?.Invoke(this, Local.Campo);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

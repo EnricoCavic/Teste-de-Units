@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b75e2922532394884ed75f84558d3a, type: 3}
   m_Name: Rodrigo
   m_EditorClassIdentifier: 
-  efeito: "Ele \xE9 dahora"
-  ataque: 88
-  vida: 40
+  efeito: Mete o loco
+  ataque: 46
+  vida: 25
   imagem: {fileID: 21300000, guid: aee597130fa2c4b478501cab3bfe0889, type: 3}
