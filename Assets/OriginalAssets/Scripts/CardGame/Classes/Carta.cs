@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Carta
 {
-    private CartaObj obj;
+    public CartaObj obj { get; private set; }
 
     public string nome { get; private set; }
     public string efeito { get; private set; }
