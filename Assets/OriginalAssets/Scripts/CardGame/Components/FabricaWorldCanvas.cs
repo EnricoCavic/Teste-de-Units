@@ -31,9 +31,18 @@ public class FabricaWorldCanvas : MonoBehaviour
             {
                 Transform t = posicoesMao[i];
                 GameObject obj = Instantiate(prefabCarta, t.position, t.rotation, transform);
-                obj.transform.localScale = t.localScale;
                 Interpretador interpr = obj.GetComponent<Interpretador>();
+
+                obj.transform.localScale = t.localScale;
                 interpr.Interpretar(_carta);
+                interpr.fabrica = this;
+                if(i == 0)
+                    interpr.offsetDoCanto = 1;
+                else if(i == interpretadores.Length - 1)
+                    interpr.offsetDoCanto = -1;
+                else    
+                    interpr.offsetDoCanto = 0;
+
                 interpretadores[i] = interpr;
                 return;
             }
