@@ -18,53 +18,53 @@ public class FabricaWorldCanvas : MonoBehaviour
 
     private void OnEnable() 
     {
-        Participante.cartaAdicionada += AdicionarCarta; 
-        Interpretador.cartaMovida += AdicionarCarta;
+        Participante.cartaAdicionada += AdicionarCartaAoLocal; 
+        Interpretador.cartaMovida += AdicionarInterpretadorAoLocal;
     }
 
-    private void AdicionarCarta(Carta _carta, Local _novoLocal)
+    private void AdicionarCartaAoLocal(Carta _carta, Local _novoLocal)
     {
-        LocalPositions localPos = EncontrarLocal(_novoLocal);
-        if(localPos == null)
+        LocalPositions novoLocalPos = EncontrarLocal(_novoLocal);
+        if(novoLocalPos == null)
             return;
 
         Interpretador _interpretador = Instantiate(prefabCarta).GetComponent<Interpretador>();
-        MoverCarta(_interpretador, _carta, localPos);   
+        _interpretador.carta = _carta;
+        MoverCarta(_interpretador, novoLocalPos);   
     }
 
-    private void AdicionarCarta(Interpretador _interpretador, Local _novoLocal)
+    private void AdicionarInterpretadorAoLocal(Interpretador _interpretador, Local _novoLocal)
     {
-        LocalPositions localPos = EncontrarLocal(_novoLocal);
-        RemoverDoLocal(_interpretador, EncontrarLocal(_interpretador.localAtual));
-        if(localPos == null)
+        LocalPositions novoLocalPos = EncontrarLocal(_novoLocal);
+        EncontrarLocal(_interpretador.localAtual).RemoverInterpretador(_interpretador);
+        if(novoLocalPos == null)
             return;
 
-        MoverCarta(_interpretador, _interpretador.carta, localPos);        
+        MoverCarta(_interpretador, novoLocalPos);        
     }
 
 
-    private void MoverCarta(Interpretador _interpretador, Carta _carta, LocalPositions _local)
+    private void MoverCarta(Interpretador _interpretador, LocalPositions _localAlvo)
     {
-        int i = EncontrarInterpretadorVazio(_local);
+        int i = _localAlvo.EncontrarInterpretadorVazio();
         if(i < 0)
             return;
 
-        Transform t = _local.posicoes[i];
+        Transform t = _localAlvo.posicoes[i];
         _interpretador.gameObject.transform.SetParent(this.transform);;
         
         _interpretador.SetTransform(t);
-        _interpretador.Interpretar(_carta);
-        _interpretador.fabrica = this;
-        _interpretador.localAtual = _local.localId;
+        _interpretador.Interpretar();
+        _interpretador.localAtual = _localAlvo.localId;
 
         if(i == 0)
             _interpretador.offsetDoCanto = 1;
-        else if(i == _local.interpretadores.Length - 1)
+        else if(i == _localAlvo.interpretadores.Length - 1)
             _interpretador.offsetDoCanto = -1;
         else    
             _interpretador.offsetDoCanto = 0;
 
-        _local.interpretadores[i] = _interpretador;
+        _localAlvo.interpretadores[i] = _interpretador;
 
     }
 
@@ -76,24 +76,5 @@ public class FabricaWorldCanvas : MonoBehaviour
 
         return null;
     }
-
-    private int EncontrarInterpretadorVazio(LocalPositions _local)
-    {
-        for(int i = 0; i < _local.interpretadores.Length; i++)
-            if(_local.interpretadores[i] == null)
-                return i;    
-
-        return -1;
-    }
-
-
-    private void RemoverDoLocal(Interpretador _interpretador, LocalPositions _local)
-    {
-        for(int i = 0; i < _local.interpretadores.Length; i++)
-            if(_local.interpretadores[i] == _interpretador)
-                _local.interpretadores[i] = null;
-    }
-
-
     
 }

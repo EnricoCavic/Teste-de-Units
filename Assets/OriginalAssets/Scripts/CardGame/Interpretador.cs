@@ -33,8 +33,6 @@ public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClick
 
     public float offsetDoCanto;
 
-    public FabricaWorldCanvas fabrica;
-
     public Local localAtual;
 
     // Start is called before the first frame update
