@@ -25,7 +25,7 @@ public class Participante : MonoBehaviour
 
     private void OnEnable() 
     {
-        Interpretador.cartaMovida += RemoverCarta;
+        Interpretador.cartaClicadaNaMao += RemoverCarta;
     }
 
     private void Update() {
@@ -45,7 +45,7 @@ public class Participante : MonoBehaviour
         cartaAdicionada?.Invoke(c, Local.Mao);
     }
 
-    private void RemoverCarta(Interpretador _interpretador, Local _localAtual)
+    private void RemoverCarta(Interpretador _interpretador)
     {
         if(mao.Count <= 0)
             return;

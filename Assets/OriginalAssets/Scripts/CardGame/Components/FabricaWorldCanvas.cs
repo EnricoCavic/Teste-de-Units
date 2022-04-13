@@ -19,7 +19,13 @@ public class FabricaWorldCanvas : MonoBehaviour
     private void OnEnable() 
     {
         Participante.cartaAdicionada += AdicionarCartaAoLocal; 
-        Interpretador.cartaMovida += AdicionarInterpretadorAoLocal;
+        Interpretador.cartaClicadaNaMao += CliqueNaMao;
+    }
+
+    private void CliqueNaMao(Interpretador _interpretador)
+    {
+        if(EncontrarLocal(Local.Campo).EncontrarInterpretadorVazio() >= 0)
+            AdicionarInterpretadorAoLocal(_interpretador, Local.Campo);
     }
 
     private void AdicionarCartaAoLocal(Carta _carta, Local _novoLocal)

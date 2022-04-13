@@ -15,7 +15,7 @@ public enum Local
 public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClickHandler, IPointerExitHandler
 {
 
-    public static Action<Interpretador, Local> cartaMovida;
+    public static event Action<Interpretador> cartaClicadaNaMao;
 
 
     [SerializeField]
@@ -76,9 +76,7 @@ public class Interpretador : MonoBehaviour, IPointerEnterHandler , IPointerClick
     public void OnPointerClick(PointerEventData eventData)
     {
         if(localAtual == Local.Mao)
-        {
-            cartaMovida?.Invoke(this, Local.Campo);
-        }
+            cartaClicadaNaMao?.Invoke(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
